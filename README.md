@@ -1,27 +1,84 @@
-Modified Project Architecture Diagram
-Breakdown of the Architectural Flow
-Source Control & Webhook: The developer pushes code to GitHub. This change automatically triggers a Webhook, which notifies AWS CodePipeline to start.
+# 🧠 Brain Tasks: End-to-End DevOps Pipeline
+> **Aspiring DevOps & Cloud Infrastructure Project**
+> A robust CI/CD and Monitoring solution leveraging AWS Managed Services, Jenkins, and Kubernetes.
 
-AWS CodePipeline (The Manager): CodePipeline starts the run. Its first action is to contact your Jenkins server (which is polling the pipeline for new jobs).
+---
 
-Jenkins Build Stage (The Worker):
+## 📊 Project Overview
+This project demonstrates a professional-grade hybrid CI/CD architecture. It automates the lifecycle of a containerized application from code commit to a high-availability deployment on **Amazon EKS**, featuring real-time observability and automated alerting.
 
-Jenkins (using your new Freestyle project with the CodePipeline plugin) downloads the source artifact.
+### 🛠 Tech Stack
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
+![Jenkins](https://img.shields.io/badge/jenkins-%23D33833.svg?style=for-the-badge&logo=jenkins&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white)
 
-It builds the Docker image and pushes it to your Amazon ECR repository.
+---
 
-Once done, Jenkins sends a "Success" signal back to CodePipeline.
+## 🏗 System Architecture
+The workflow follows a "Manager-Worker" model where **AWS CodePipeline** orchestrates the stages and **Jenkins** performs the specialized build tasks.
 
-AWS CodePipeline (The Deployer): CodePipeline receives the success signal. It uses the native EKS Deploy Action (not a kubectl command from Jenkins) to update your Kubernetes cluster's deployment.yaml with the new image tag.
+```mermaid
+graph LR
+    A[Developer Push] -->|Webhook| B[GitHub]
+    B --> C[AWS CodePipeline]
+    subgraph "CI Stage"
+    C --> D[Jenkins Freestyle Job]
+    D -->|Docker Build| E[Amazon ECR]
+    E -->|Success Signal| C
+    end
+    subgraph "CD Stage"
+    C --> F[AWS CodeDeploy/EKS]
+    F -->|Deploy| G[Amazon EKS Cluster]
+    end
+    subgraph "Observability"
+    G --> H[Nginx Pods :80]
+    H --- I[Prometheus + Blackbox]
+    I --> J[Grafana Dashboard]
+    J -->|Alert| K[Gmail SMTP Notification]
+    end
+📁 Project Structure
+Plaintext
+.
+├── Dockerfile           # Multi-stage Docker build file
+├── Jenkinsfile          # Pipeline-as-Code for CI stages
+├── README.md            # Project documentation
+├── buildspec.yml       # AWS CodeBuild configuration
+├── default.conf         # Nginx server configuration
+├── deployment.yaml      # Kubernetes Deployment manifest
+├── service.yaml         # Kubernetes Service (LoadBalancer) manifest
+├── dist/                # Compiled application assets (Vite/JS)
+│   ├── assets/          # Static JS and CSS files
+│   ├── index.html       # Application entry point
+│   └── vite.svg         # App logo
+└── images/              # Project documentation assets
+    └── Brain tasks DevOps architecture diagram.png
+🚀 Key Features
+1. Hybrid CI/CD Pipeline
+Automated Orchestration: Managed by AWS CodePipeline for high reliability.
 
-Amazon EKS (The Runtime): Your Brain Tasks app runs on Nginx (mapped to Port 80). EKS handles the rolling update to ensure zero-downtime.
+Build Specialist: Jenkins (Freestyle) handles Docker image creation and ECR pushes.
 
-The Monitoring Layer (The Watchdog):
+Native Deployment: Uses AWS native EKS actions to update cluster manifests via deployment.yaml.
 
-Prometheus (using the Blackbox Exporter) continues probing your public Load Balancer URL.
+2. High-Availability Runtime
+Nginx Optimized: Uses default.conf to serve the dist/ folder on Port 80.
 
-Grafana reads this data to show you the green "ONLINE" status on your custom "Brain Tasks" dashboard.
+Load Balanced: Exposed via service.yaml using an AWS Classic Load Balancer.
 
-If the probe returns a 0 (Offline), an alert is triggered in Grafana.
+3. Advanced Monitoring & Alerting
+Blackbox Probing: Prometheus monitors the external Load Balancer URL.
 
-Gmail SMTP then automatically sends you a notification.
+Site Reliability: Real-time "ONLINE/OFFLINE" status tracking.
+
+Automated Notifications: 📧 Gmail SMTP sends critical alerts if the app is offline and restoration alerts when it's back up.
+
+📸 Dashboard & Architecture
+The project architecture is visually documented in the images/ directory:
+
+Architecture Diagram: images/Brain tasks DevOps architecture diagram.png
+
+👨‍💻 Author
+Bibek Kumar Sahu Aspiring DevOps & Cloud Infrastructure Engineer LinkedIn | Portfolio
