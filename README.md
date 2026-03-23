@@ -8,77 +8,79 @@
 This project demonstrates a professional-grade hybrid CI/CD architecture. It automates the lifecycle of a containerized application from code commit to a high-availability deployment on **Amazon EKS**, featuring real-time observability and automated alerting.
 
 ### 🛠 Tech Stack
-![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
-![Kubernetes](https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white)
-![Jenkins](https://img.shields.io/badge/jenkins-%23D33833.svg?style=for-the-badge&logo=jenkins&logoColor=white)
-![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white)
-![Grafana](https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white)
+<p align="center">
+  <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" />
+  <img src="https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white" />
+  <img src="https://img.shields.io/badge/jenkins-%23D33833.svg?style=for-the-badge&logo=jenkins&logoColor=white" />
+  <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white" />
+  <img src="https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white" />
+</p>
 
 ---
 
 ## 🏗 System Architecture
-The workflow follows a "Manager-Worker" model where **AWS CodePipeline** orchestrates the stages and **Jenkins** performs the specialized build tasks.
+The workflow follows a **Manager-Worker** model where **AWS CodePipeline** orchestrates the stages and **Jenkins** performs the specialized build tasks.
 
 ```mermaid
-graph LR
-    A[Developer Push] -->|Webhook| B[GitHub]
-    B --> C[AWS CodePipeline]
-    subgraph "CI Stage"
+graph TD
+    %% Define Nodes
+    A[Developer Push] -->|Webhook| B(GitHub Repository)
+    B --> C{AWS CodePipeline}
+
+    subgraph "Continuous Integration"
     C --> D[Jenkins Freestyle Job]
     D -->|Docker Build| E[Amazon ECR]
     E -->|Success Signal| C
     end
-    subgraph "CD Stage"
-    C --> F[AWS CodeDeploy/EKS]
-    F -->|Deploy| G[Amazon EKS Cluster]
+
+    subgraph "Continuous Deployment"
+    C --> F[AWS EKS Deploy Action]
+    F -->|Rollout| G[Amazon EKS Cluster]
     end
-    subgraph "Observability"
+
+    subgraph "Real-time Observability"
     G --> H[Nginx Pods :80]
     H --- I[Prometheus + Blackbox]
     I --> J[Grafana Dashboard]
-    J -->|Alert| K[Gmail SMTP Notification]
+    J -->|SMTP Alert| K[Gmail Notification]
     end
+
+    %% Styling
+    style C fill:#f96,stroke:#333,stroke-width:2px
+    style G fill:#326ce5,stroke:#fff,stroke-width:2px
+    style D fill:#D33833,stroke:#fff,stroke-width:2px
 📁 Project Structure
 Plaintext
 .
 ├── Dockerfile           # Multi-stage Docker build file
 ├── Jenkinsfile          # Pipeline-as-Code for CI stages
-├── README.md            # Project documentation
-├── buildspec.yml       # AWS CodeBuild configuration
+├── buildspec.yml        # AWS CodeBuild configuration
 ├── default.conf         # Nginx server configuration
 ├── deployment.yaml      # Kubernetes Deployment manifest
 ├── service.yaml         # Kubernetes Service (LoadBalancer) manifest
-├── dist/                # Compiled application assets (Vite/JS)
-│   ├── assets/          # Static JS and CSS files
-│   ├── index.html       # Application entry point
-│   └── vite.svg         # App logo
+├── dist/                # Compiled application assets
 └── images/              # Project documentation assets
-    └── Brain tasks DevOps architecture diagram.png
+    └── architecture.png
 🚀 Key Features
 1. Hybrid CI/CD Pipeline
-Automated Orchestration: Managed by AWS CodePipeline for high reliability.
+Orchestration: Managed by AWS CodePipeline for enterprise reliability.
 
-Build Specialist: Jenkins (Freestyle) handles Docker image creation and ECR pushes.
+Build Specialist: Jenkins handles Docker image creation and ECR pushes.
 
-Native Deployment: Uses AWS native EKS actions to update cluster manifests via deployment.yaml.
+Native Deployment: Automated manifest updates via EKS-native actions.
 
 2. High-Availability Runtime
-Nginx Optimized: Uses default.conf to serve the dist/ folder on Port 80.
+Nginx Optimized: Serves static assets on Port 80 with a custom configuration.
 
-Load Balanced: Exposed via service.yaml using an AWS Classic Load Balancer.
+Scalable: Hosted on Amazon EKS with automated load balancing.
 
-3. Advanced Monitoring & Alerting
-Blackbox Probing: Prometheus monitors the external Load Balancer URL.
+3. Monitoring & Alerting
+Probing: Prometheus Blackbox verifies endpoint health every 15s.
 
-Site Reliability: Real-time "ONLINE/OFFLINE" status tracking.
+Visuals: Custom Grafana dashboard for CPU, Memory, and Latency.
 
-Automated Notifications: 📧 Gmail SMTP sends critical alerts if the app is offline and restoration alerts when it's back up.
-
-📸 Dashboard & Architecture
-The project architecture is visually documented in the images/ directory:
-
-Architecture Diagram: images/Brain tasks DevOps architecture diagram.png
+Alerting: Automated Gmail SMTP notifications for downtime and recovery.
 
 👨‍💻 Author
-Bibek Kumar Sahu Aspiring DevOps & Cloud Infrastructure Engineer LinkedIn | Portfolio
+Bibek Kumar Sahu Aspiring DevOps & Cloud Infrastructure Engineer LinkedIn | GitHub
