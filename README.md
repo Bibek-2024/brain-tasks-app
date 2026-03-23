@@ -73,7 +73,7 @@ Below is the local directory structure of the `brain-tasks-app` repository:
 The workflow implements a Manager-Worker model. AWS CodePipeline manages the lifecycle, while Jenkins handles the heavy lifting of Docker builds.
 
 <p align="center">
-<img src="./https://github.com/Bibek-2024/brain-tasks-app/blob/09a48d96ffcca3abf62828477c719f3bde76a120/images/Brain%20tasks%20DevOps%20architecture%20diagram.png" alt="Architecture Diagram" width="850">
+  <img src="images/Brain%20tasks%20DevOps%20architecture%20diagram.png" alt="Architecture Diagram" width="850">
 </p>
 
 ### **🚀 CI/CD Execution Flow**
@@ -104,24 +104,12 @@ git clone [https://github.com/Bibek-2024/brain-tasks-app.git](https://github.com
 cd brain-tasks-app
 
 
-```
-
 ### 2. Initialize Jenkins
 
 Create a jenkis pipeline item named exactly as referenced in your Pipeline.
 
 Configure the Build Trigger to poll AWS CodePipeline.
 
-```
-```
-### 3. Initialize Jenkins
-
-Create a jenkis pipeline item named exactly as referenced in your Pipeline.
-
-Configure the Build Trigger to poll AWS CodePipeline.
-
-```
-```
 ### 4. Deploy Stack
 
 ```bash
@@ -131,7 +119,8 @@ kubectl apply -f service.yaml
 
 ```
 ### 5. Verification
-Bash
+
+```bash
 # Verify pods are running on Port 80
 kubectl get pods -n monitoring
 kubectl get svc
