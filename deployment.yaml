@@ -15,6 +15,6 @@ spec:
       containers:
       - name: brain-container
         # Use your exact ECR URL from the Jenkins logs
-        image: 845561723983.dkr.ecr.ap-south-1.amazonaws.com/brain-tasks-app:latest
+        image: public.ecr.aws/j9y5x1y8/brain-tasks-app/brain-tasks-app:latest
         ports:
         - containerPort: 3000
