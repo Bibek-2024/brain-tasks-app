@@ -1,11 +1,13 @@
 # <p align="center">🧠 Brain Tasks: Managed Cloud-Native DevOps Project</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white" />
-  <img src="https://img.shields.io/badge/CodePipeline-FF9900?style=for-the-badge&logo=awscodepipeline&logoColor=white" />
-  <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white" />
-  <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" />
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+<img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white" />
+<img src="https://img.shields.io/badge/CodePipeline-FF9900?style=for-the-badge&logo=awscodepipeline&logoColor=white" />
+<img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white" />
+<img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" />
+<img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+<img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" />
+<img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" />
 </p>
 
 <p align="center">
@@ -62,49 +64,87 @@ Below is the local directory structure of the `brain-tasks-app` repository:
 ├── images/              # Documentation assets & screenshots
 │   └── Brain tasks DevOps architecture diagram.png
 └── .dockerignore        # Build optimization
-🏗️ Pipeline Architecture
+```
+
+---
+
+## 🏗️ Pipeline Architecture
+
 The workflow implements a Manager-Worker model. AWS CodePipeline manages the lifecycle, while Jenkins handles the heavy lifting of Docker builds.
 
 <p align="center">
-<img src="./images/Brain tasks DevOps architecture diagram.png" alt="Architecture Diagram" width="850">
+<img src="./https://github.com/Bibek-2024/brain-tasks-app/blob/09a48d96ffcca3abf62828477c719f3bde76a120/images/Brain%20tasks%20DevOps%20architecture%20diagram.png" alt="Architecture Diagram" width="850">
 </p>
 
-🚀 CI/CD Execution Flow
-Developer Push ➔ GitHub Webhook ➔ AWS CodePipeline ➔ Jenkins Build ➔ Amazon ECR ➔ AWS EKS Deploy
+### **🚀 CI/CD Execution Flow**
 
-📊 Monitoring & Alerting
+> **Developer Push ➔ GitHub Webhook ➔ AWS CodePipeline ➔ Jenkins Build ➔ Amazon ECR ➔ AWS EKS Deploy**
+
+---
+
+---
+
+## 📊 Monitoring & Alerting
+
 We implemented a proactive "Watchdog" strategy using the Prometheus Operator stack:
 
-Uptime Tracking: Prometheus Blackbox Exporter probes the EKS LoadBalancer endpoint.
+* **Uptime Tracking:** Prometheus Blackbox Exporter probes the EKS LoadBalancer endpoint.
+* **Alerting:** Configured Gmail SMTP via Grafana for instant 🚨 [FIRING] notifications if pods drop below 1.
+* **Dashboards:** Real-time visualization of CPU, Memory, and Network traffic in Grafana.
+* **Visual Dashboards:** Real-time Grafana tracking for Site Status (Online/Offline), Latency, and Pod CPU/Memory.
 
-Visual Dashboards: Real-time Grafana tracking for Site Status (Online/Offline), Latency, and Pod CPU/Memory.
+---
 
-Gmail Alerts: Configured SMTP via Grafana for instant 📧 notifications when the site status changes.
+## ⚙️ How to Run This Project
 
-⚙️ How to Run This Project
-1. Initialize Jenkins
-Install the AWS CodePipeline Plugin.
+### 1. Clone & Initialize
 
-Create a Freestyle Project named exactly as referenced in your Pipeline.
+```bash
+git clone [https://github.com/Bibek-2024/brain-tasks-app.git](https://github.com/Bibek-2024/brain-tasks-app.git)
+cd brain-tasks-app
+
+
+```
+
+### 2. Initialize Jenkins
+
+Create a jenkis pipeline item named exactly as referenced in your Pipeline.
 
 Configure the Build Trigger to poll AWS CodePipeline.
 
-2. Configure AWS CodePipeline
-Source: Connect your GitHub repository via Webhook.
+```
+```
+### 3. Initialize Jenkins
 
-Build: Select Jenkins as the provider and link your EC2 instance.
+Create a jenkis pipeline item named exactly as referenced in your Pipeline.
 
-Deploy: Use the native Amazon EKS deploy action with your deployment.yaml.
+Configure the Build Trigger to poll AWS CodePipeline.
 
-3. Verification
+```
+```
+### 4. Deploy Stack
+
+```bash
+# The Jenkins pipeline handles this automatically, but you can manually trigger:
+kubectl apply -f deployment.yaml
+kubectl apply -f service.yaml
+
+```
+### 5. Verification
 Bash
 # Verify pods are running on Port 80
 kubectl get pods -n monitoring
 kubectl get svc
-👤 Author & Contact
-Bibek Kumar Sahu
-Aspiring DevOps & Cloud Infrastructure Engineer
+---
 
-📫 Email: bibekkumarsahu2011@gmail.com
-🔗 LinkedIn: bibekkumarsahu
-📁 GitHub: Bibek-2024
+## 👤 Author & Contact
+
+### **Bibek Kumar Sahu**
+
+*Aspiring DevOps & Cloud Infrastructure Engineer*
+
+📫 **Email:** [bibekkumarsahu2011@gmail.com](mailto:bibekkumarsahu2011@gmail.com)
+🔗 **LinkedIn:** [bibekkumarsahu](https://www.linkedin.com/in/bibekkumarsahu/)
+📁 **GitHub:** [Bibek-2024](https://github.com/Bibek-2024/trendstore-infra.git)
+
+---
