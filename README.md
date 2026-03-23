@@ -1,86 +1,110 @@
-# 🧠 Brain Tasks: End-to-End DevOps Pipeline
-> **Aspiring DevOps & Cloud Infrastructure Project**
-> A robust CI/CD and Monitoring solution leveraging AWS Managed Services, Jenkins, and Kubernetes.
+# <p align="center">🧠 Brain Tasks: Managed Cloud-Native DevOps Project</p>
 
----
-
-## 📊 Project Overview
-This project demonstrates a professional-grade hybrid CI/CD architecture. It automates the lifecycle of a containerized application from code commit to a high-availability deployment on **Amazon EKS**, featuring real-time observability and automated alerting.
-
-### 🛠 Tech Stack
 <p align="center">
-  <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" />
-  <img src="https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white" />
-  <img src="https://img.shields.io/badge/jenkins-%23D33833.svg?style=for-the-badge&logo=jenkins&logoColor=white" />
-  <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white" />
-  <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=Prometheus&logoColor=white" />
-  <img src="https://img.shields.io/badge/grafana-%23F46800.svg?style=for-the-badge&logo=grafana&logoColor=white" />
+  <img src="https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white" />
+  <img src="https://img.shields.io/badge/CodePipeline-FF9900?style=for-the-badge&logo=awscodepipeline&logoColor=white" />
+  <img src="https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white" />
+  <img src="https://img.shields.io/badge/Kubernetes-326CE5?style=for-the-badge&logo=kubernetes&logoColor=white" />
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+</p>
+
+<p align="center">
+  <strong>Orchestrating a Professional CI/CD Lifecycle using AWS CodePipeline, Jenkins, and EKS for High-Availability Applications.</strong>
 </p>
 
 ---
 
-## 🏗 System Architecture
-The workflow follows a **Manager-Worker** model where **AWS CodePipeline** orchestrates the stages and **Jenkins** performs the specialized build tasks.
+## 📌 Table of Contents
+* [Overview](#-overview)
+* [Tools & Technologies](#-tools--technologies)
+* [Project Structure](#-project-structure)
+* [Pipeline Architecture](#-pipeline-architecture)
+* [Monitoring & Alerting](#-monitoring--alerting)
+* [How to Run This Project](#-how-to-run-this-project)
+* [Author & Contact](#-author--contact)
 
-```mermaid
-graph TD
-    %% Define Nodes
-    A[Developer Push] -->|Webhook| B(GitHub Repository)
-    B --> C{AWS CodePipeline}
+---
 
-    subgraph "Continuous Integration"
-    C --> D[Jenkins Freestyle Job]
-    D -->|Docker Build| E[Amazon ECR]
-    E -->|Success Signal| C
-    end
+## 📖 Overview
+This project showcases a hybrid **DevOps Ecosystem** for the "Brain Tasks" application. It transitions from a standard Jenkins flow to a managed **AWS CodePipeline** orchestrator. By leveraging **Jenkins** as a specialized build provider and **Amazon EKS** as the runtime, the project achieves enterprise-grade deployment reliability and real-time observability.
 
-    subgraph "Continuous Deployment"
-    C --> F[AWS EKS Deploy Action]
-    F -->|Rollout| G[Amazon EKS Cluster]
-    end
+---
 
-    subgraph "Real-time Observability"
-    G --> H[Nginx Pods :80]
-    H --- I[Prometheus + Blackbox]
-    I --> J[Grafana Dashboard]
-    J -->|SMTP Alert| K[Gmail Notification]
-    end
+## 🛠 Tools & Technologies
 
-    %% Styling
-    style C fill:#f96,stroke:#333,stroke-width:2px
-    style G fill:#326ce5,stroke:#fff,stroke-width:2px
-    style D fill:#D33833,stroke:#fff,stroke-width:2px
-📁 Project Structure
-Plaintext
+| Category | Tools Used |
+| :--- | :--- |
+| **Orchestration** | AWS CodePipeline |
+| **Continuous Integration** | Jenkins (Freestyle), GitHub Webhooks |
+| **Containerization** | Docker (Multi-stage), Amazon ECR |
+| **Cloud Runtime** | Amazon EKS (Kubernetes) |
+| **Web Server** | Nginx (Port 80) |
+| **Observability** | Prometheus, Grafana, Blackbox Exporter |
+
+---
+
+## 📂 Project Structure
+
+Below is the local directory structure of the `brain-tasks-app` repository:
+
+```text
 .
-├── Dockerfile           # Multi-stage Docker build file
-├── Jenkinsfile          # Pipeline-as-Code for CI stages
-├── buildspec.yml        # AWS CodeBuild configuration
-├── default.conf         # Nginx server configuration
-├── deployment.yaml      # Kubernetes Deployment manifest
-├── service.yaml         # Kubernetes Service (LoadBalancer) manifest
-├── dist/                # Compiled application assets
-└── images/              # Project documentation assets
-    └── architecture.png
-🚀 Key Features
-1. Hybrid CI/CD Pipeline
-Orchestration: Managed by AWS CodePipeline for enterprise reliability.
+├── Dockerfile           # Multi-stage Docker build (Nginx-based)
+├── Jenkinsfile          # Jenkins Pipeline definition
+├── README.md            # Project documentation
+├── buildspec.yml        # AWS CodeBuild / Pipeline configuration
+├── default.conf         # Custom Nginx configuration (Port 80)
+├── deployment.yaml      # K8s Deployment manifest
+├── service.yaml         # K8s LoadBalancer manifest
+├── dist/                # Production-ready application assets
+│   ├── assets/          # Optimized static JS/CSS
+│   └── index.html       # Application entry point
+├── images/              # Documentation assets & screenshots
+│   └── Brain tasks DevOps architecture diagram.png
+└── .dockerignore        # Build optimization
+🏗️ Pipeline Architecture
+The workflow implements a Manager-Worker model. AWS CodePipeline manages the lifecycle, while Jenkins handles the heavy lifting of Docker builds.
 
-Build Specialist: Jenkins handles Docker image creation and ECR pushes.
+<p align="center">
+<img src="./images/Brain tasks DevOps architecture diagram.png" alt="Architecture Diagram" width="850">
+</p>
 
-Native Deployment: Automated manifest updates via EKS-native actions.
+🚀 CI/CD Execution Flow
+Developer Push ➔ GitHub Webhook ➔ AWS CodePipeline ➔ Jenkins Build ➔ Amazon ECR ➔ AWS EKS Deploy
 
-2. High-Availability Runtime
-Nginx Optimized: Serves static assets on Port 80 with a custom configuration.
+📊 Monitoring & Alerting
+We implemented a proactive "Watchdog" strategy using the Prometheus Operator stack:
 
-Scalable: Hosted on Amazon EKS with automated load balancing.
+Uptime Tracking: Prometheus Blackbox Exporter probes the EKS LoadBalancer endpoint.
 
-3. Monitoring & Alerting
-Probing: Prometheus Blackbox verifies endpoint health every 15s.
+Visual Dashboards: Real-time Grafana tracking for Site Status (Online/Offline), Latency, and Pod CPU/Memory.
 
-Visuals: Custom Grafana dashboard for CPU, Memory, and Latency.
+Gmail Alerts: Configured SMTP via Grafana for instant 📧 notifications when the site status changes.
 
-Alerting: Automated Gmail SMTP notifications for downtime and recovery.
+⚙️ How to Run This Project
+1. Initialize Jenkins
+Install the AWS CodePipeline Plugin.
 
-👨‍💻 Author
-Bibek Kumar Sahu Aspiring DevOps & Cloud Infrastructure Engineer LinkedIn | GitHub
+Create a Freestyle Project named exactly as referenced in your Pipeline.
+
+Configure the Build Trigger to poll AWS CodePipeline.
+
+2. Configure AWS CodePipeline
+Source: Connect your GitHub repository via Webhook.
+
+Build: Select Jenkins as the provider and link your EC2 instance.
+
+Deploy: Use the native Amazon EKS deploy action with your deployment.yaml.
+
+3. Verification
+Bash
+# Verify pods are running on Port 80
+kubectl get pods -n monitoring
+kubectl get svc
+👤 Author & Contact
+Bibek Kumar Sahu
+Aspiring DevOps & Cloud Infrastructure Engineer
+
+📫 Email: bibekkumarsahu2011@gmail.com
+🔗 LinkedIn: bibekkumarsahu
+📁 GitHub: Bibek-2024
