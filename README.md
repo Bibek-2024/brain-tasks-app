@@ -37,7 +37,7 @@ This project showcases a hybrid **DevOps Ecosystem** for the "Brain Tasks" appli
 | Category | Tools Used |
 | :--- | :--- |
 | **Orchestration** | AWS CodePipeline |
-| **Continuous Integration** | Jenkins (Freestyle), GitHub Webhooks |
+| **Continuous Integration** | Jenkins (Pipeline Item), GitHub Webhooks |
 | **Containerization** | Docker (Multi-stage), Amazon ECR |
 | **Cloud Runtime** | Amazon EKS (Kubernetes) |
 | **Web Server** | Nginx (Port 80) |
@@ -103,7 +103,6 @@ We implemented a proactive "Watchdog" strategy using the Prometheus Operator sta
 git clone [https://github.com/Bibek-2024/brain-tasks-app.git](https://github.com/Bibek-2024/brain-tasks-app.git)
 cd brain-tasks-app
 
----
 ```
 ### 2. Initialize Jenkins
 
@@ -141,6 +140,6 @@ kubectl get svc
 
 📫 **Email:** [bibekkumarsahu2011@gmail.com](mailto:bibekkumarsahu2011@gmail.com)
 🔗 **LinkedIn:** [bibekkumarsahu](https://www.linkedin.com/in/bibekkumarsahu/)
-📁 **GitHub:** [Bibek-2024](https://github.com/Bibek-2024/trendstore-infra.git)
+📁 **GitHub:** [Bibek-2024](https://github.com/Bibek-2024/brain-tasks-app.git)
 
 ---
