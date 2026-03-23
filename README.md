@@ -82,8 +82,6 @@ The workflow implements a Manager-Worker model. AWS CodePipeline manages the lif
 
 ---
 
----
-
 ## 📊 Monitoring & Alerting
 
 We implemented a proactive "Watchdog" strategy using the Prometheus Operator stack:
