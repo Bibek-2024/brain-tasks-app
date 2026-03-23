@@ -26,10 +26,12 @@ pipeline {
             steps {
                 script {
                     // Authenticate with AWS ECR
-                    sh "aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_URL}"
+                    sh "aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/j9y5x1y8"
                     
                     // Build the image using the existing 'dist/' folder as specified in your Dockerfile
-                    sh "docker build --no-cache -t ${IMAGE_URI} ."
+                    sh "docker build -t brain-tasks-app ."
+                    sh "docker tag brain-tasks-app:latest public.ecr.aws/j9y5x1y8/brain-tasks-app:latest"
+                  
                 }
             }
         }
@@ -38,7 +40,7 @@ pipeline {
             steps {
                 script {
                     // Push the 'latest' image for EKS to pull
-                    sh "docker push ${IMAGE_URI}"
+                    sh "docker push public.ecr.aws/j9y5x1y8/brain-tasks-app:latest"
                 }
             }
         }
