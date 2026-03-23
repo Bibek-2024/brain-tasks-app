@@ -13,8 +13,8 @@ spec:
         app: brain-app
     spec:
       containers:
-      - name: brain-app
-        # Placeholder for the image tag used by the pipeline
-        image: CONTAINER_IMAGE 
+      - name: brain-container
+        # Use your exact ECR URL from the Jenkins logs
+        image: 845561723983.dkr.ecr.ap-south-1.amazonaws.com/brain-tasks-app:latest
         ports:
         - containerPort: 3000
