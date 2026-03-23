@@ -1,51 +1,17 @@
 version: 0.2
-
-env:
-  variables:
-    AWS_DEFAULT_REGION: "ap-south-1"
-    ECR_REPO: "brain-tasks-app"
-    CLUSTER_NAME: "brain-tasks-cluster" # Updated to match your EKS name
-    ACCOUNT_ID: "845561723983"
-
 phases:
   install:
-    runtime-versions:
-      nodejs: 18
     commands:
       - echo Installing kubectl...
       - curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.1/2023-04-19/bin/linux/amd64/kubectl
       - chmod +x ./kubectl && mv ./kubectl /usr/local/bin/
-  
   pre_build:
     commands:
-      - echo "Building React App..."
-      - npm install
-      - npm run build
-      - echo "Logging into Amazon ECR..."
-      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
-      - echo "Updating Kubeconfig..."
-      - aws eks update-kubeconfig --name $CLUSTER_NAME --region $AWS_DEFAULT_REGION
-  
+      - echo Connecting to EKS...
+      - aws eks update-kubeconfig --name brain-tasks-cluster --region ap-south-1
   build:
     commands:
-      - echo "Building Docker image..."
-      # This builds the image using your Dockerfile which copies the 'dist/' folder
-      - docker build -t $ECR_REPO:latest .
-      - docker tag $ECR_REPO:latest $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO:latest
-
-  post_build:
-    commands:
-      - echo "Pushing image to ECR..."
-      - docker push $ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$ECR_REPO:latest
-      - echo "Deploying to EKS..."
-      # Replaces the placeholder in your deployment.yaml if you use one, 
-      # or simply applies the latest image.
+      - echo Applying Kubernetes Manifests...
       - kubectl apply -f deployment.yaml
       - kubectl apply -f service.yaml
-      - echo "Forcing rollout to pick up new image..."
       - kubectl rollout restart deployment/brain-app
-      - echo "Deployment Complete!"
-
-artifacts:
-  files:
-    - '**/*'
