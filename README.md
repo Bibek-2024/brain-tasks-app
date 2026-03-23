@@ -103,14 +103,17 @@ We implemented a proactive "Watchdog" strategy using the Prometheus Operator sta
 git clone [https://github.com/Bibek-2024/brain-tasks-app.git](https://github.com/Bibek-2024/brain-tasks-app.git)
 cd brain-tasks-app
 
-
+---
+```
 ### 2. Initialize Jenkins
 
 Create a jenkis pipeline item named exactly as referenced in your Pipeline.
 
 Configure the Build Trigger to poll AWS CodePipeline.
 
-### 4. Deploy Stack
+---
+
+### 3. Deploy Stack
 
 ```bash
 # The Jenkins pipeline handles this automatically, but you can manually trigger:
@@ -118,12 +121,16 @@ kubectl apply -f deployment.yaml
 kubectl apply -f service.yaml
 
 ```
-### 5. Verification
+---
+
+### 4. Verification
 
 ```bash
 # Verify pods are running on Port 80
 kubectl get pods -n monitoring
 kubectl get svc
+
+```
 ---
 
 ## 👤 Author & Contact
